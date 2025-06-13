@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const ProductList = () => {
   const { postData,user } = useSelector((state) => state.auth);
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  pb-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  pb-10 pt-20">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Featured Products</h1>
       
       {postData?.length === 0 ? (
