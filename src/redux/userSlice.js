@@ -8,6 +8,7 @@ export const userSlice = createSlice({
     likeData :[],
     likeData_id:[],
     postData:[],
+    postData_forFilter:[],
   },
   reducers: {
     setDataUser: (state, action) => {
@@ -25,8 +26,11 @@ export const userSlice = createSlice({
     setLikeData_id:(state, action) => {
       state.likeData_id= action.payload; // Set the user state
     },
+    setPostData_forFilter:(state, action) => {
+      state.postData_forFilter = action.payload; // Set the user state
+    },
   },
 });
 
-export const { setDataUser, setUser,setLikeData,setPostData,setLikeData_id } = userSlice.actions;
+export const { setDataUser, setUser,setLikeData,setPostData,setLikeData_id,setPostData_forFilter } = userSlice.actions;
 export default userSlice.reducer;

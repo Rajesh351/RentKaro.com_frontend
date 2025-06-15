@@ -11,15 +11,14 @@ import axios from "axios";
 import {
   setFilteredPosts, setReceiverId, setSenderId
 } from "../redux/messageSlice";
-import {USER_API_END_POINT}from "../assets/EndPoint"
+import { USER_API_END_POINT } from "../assets/EndPoint"
 const Header = () => {
   const navigate = useNavigate();
   const [search, setSearch] = React.useState("");
   const dispatch = useDispatch();
-  const { user, postData } = useSelector((state) => state.auth);
-
-
-
+  const { user, postData,postData_forFilter } = useSelector((state) => state.auth);
+  const { filteredPosts } = useSelector((state) => state.message);
+  const [selectedDistrict, setSelectedDistrict] = React.useState("");
   const logoutHandler = async () => {
     try {
       const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
@@ -60,15 +59,42 @@ const Header = () => {
     navigate(`/search/${search}`);
     setSearch("");
   };
+  const biharDistricts = [
+    "Patna", "Gaya", "Muzaffarpur", "Bhagalpur", "Darbhanga",
+    "Purnia", "Samastipur", "Arrah", "Begusarai", "Katihar"
+  ];
+  const changeHandler = (e) => {
+    setSelectedDistrict(e.target.value)
+   if(e.target.value=== ""){
+        dispatch(setPostData(postData_forFilter))
+   }
+   else{
+    const filteredData=postData.filter((item) => 
+      item?.city?.toLowerCase() === e.target.value.toLowerCase()
+    );
+    dispatch(setPostData(filteredData));
+   }
+  }
 
   return (
     <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div className="w-full max-w-full mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate("/")}>
           RentKaro
         </div>
-
+        <div className="ml-2">
+          <select
+            value={selectedDistrict}
+            onChange={changeHandler}
+            className="w-48 py-2 px-3  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">Select District</option>
+            {biharDistricts.map((district) => (
+              <option key={district} value={district}>{district}</option>
+            ))}
+          </select>
+        </div>
         {/* Search bar (desktop only) */}
         <form
           onSubmit={searchHandler}
@@ -109,7 +135,7 @@ const Header = () => {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              SELL
+              RENT
             </span>
           </button>
 
@@ -123,7 +149,7 @@ const Header = () => {
           ) : (
             <button
               onClick={() => navigate("/auth")}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
             >
               Login
             </button>
