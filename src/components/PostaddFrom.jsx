@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useProductData from "../hooks/useProductdata";
-import { setDataUser, setPostData } from "../redux/userSlice";
+import { setDataUser, setPostData, setPostData_forFilter } from "../redux/userSlice";
 import {POST_API_END_POINT} from "../assets/EndPoint"
 import { setFilteredPosts } from "../redux/messageSlice";
 const PostForm = () => {
@@ -64,7 +64,7 @@ const PostForm = () => {
 
       toast.success("Post Created Successfully");
       dispatch(setPostData(res?.data?.allPosts))
-      dispatch(setFilteredPosts(res?.data?.allPosts))
+      dispatch(setPostData_forFilter(res?.data?.allPosts))
       navigate("/");
 
     } catch (error) {
