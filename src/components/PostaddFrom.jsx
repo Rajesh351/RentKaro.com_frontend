@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import useProductData from "../hooks/useProductdata";
 import { setDataUser, setPostData } from "../redux/userSlice";
 import {POST_API_END_POINT} from "../assets/EndPoint"
+import { setFilteredPosts } from "../redux/messageSlice";
 const PostForm = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const PostForm = () => {
 
       toast.success("Post Created Successfully");
       dispatch(setPostData(res?.data?.allPosts))
+      dispatch(setFilteredPosts(res?.data?.allPosts))
       navigate("/");
 
     } catch (error) {
